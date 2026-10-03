@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace NNPTPZ1
 {
@@ -9,9 +10,16 @@ namespace NNPTPZ1
         {
             public List<ComplexNumber> Coefficients { get; set; }
 
-            public Polynomial() => Coefficients = new List<ComplexNumber>();
+            public Polynomial(params ComplexNumber[] numbers) 
+            {
+                Coefficients = new List<ComplexNumber>();
+                foreach (ComplexNumber number in numbers)
+                {
+                    Coefficients.Add(number);
+                }
+            }
 
-            public void Add(ComplexNumber coe) => Coefficients.Add(coe);
+            public void Add(ComplexNumber number) => Coefficients.Add(number);
 
             public Polynomial Derivative()
             {
@@ -25,9 +33,9 @@ namespace NNPTPZ1
                 return p;
             }
 
-            public ComplexNumber Evaluate(double x)
+            public ComplexNumber Evaluate(double num)
             {
-                return Evaluate(new ComplexNumber() { Real = x, Imaginary = 0 });
+                return Evaluate(new ComplexNumber() { Real = num, Imaginary = 0 });
             }
 
             public ComplexNumber Evaluate(ComplexNumber x)

@@ -17,7 +17,6 @@ using NNPTPZ1.Mathematics;
 
 namespace NNPTPZ1
 {
-
     class Program
     {
         static void Main(string[] args)
@@ -49,7 +48,7 @@ namespace NNPTPZ1
             p.Coefficients.Add(new ComplexNumber() { Real = 1 });
             p.Coefficients.Add(ComplexNumber.Zero);
             p.Coefficients.Add(ComplexNumber.Zero);
-            //p.Coe.Add(Cplx.Zero);
+            //p.Coefficients.Add(Cplx.Zero);
             p.Coefficients.Add(new ComplexNumber() { Real = 1 });
             Polynomial ptmp = p;
             Polynomial pd = p.Derivative();
@@ -134,20 +133,7 @@ namespace NNPTPZ1
                 }
             }
 
-            // TODO: delete I suppose...
-            //for (int i = 0; i < 300; i++)
-            //{
-            //    for (int j = 0; j < 300; j++)
-            //    {
-            //        Color c = bmp.GetPixel(j, i);
-            //        int nv = (int)Math.Floor(c.R * (255.0 / maxid));
-            //        bmp.SetPixel(j, i, Color.FromArgb(nv, nv, nv));
-            //    }
-            //}
-
-                    bmp.Save(output ?? "../../../out.png");
-            //Console.ReadKey();
+            bmp.Save(output ?? "../../../out.png");
         }
     }
-
 }
