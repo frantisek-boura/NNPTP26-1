@@ -22,8 +22,7 @@ namespace NNPTPZ1
     {
         static void Main(string[] args)
         {
-            ArgumentParser arguments = new ArgumentParser(args);
-
+            Options options = UserInputParser.Parse(args);
             Polynomial poly = new Polynomial
             (
                     new ComplexNumber() { Real = 1 },
@@ -32,6 +31,7 @@ namespace NNPTPZ1
                     new ComplexNumber() { Real = 1 }
             );
             Polynomial polyDerivative = poly.Derivative();
+            Bitmap bitmap = new Bitmap(options.BitmapWidth, options.BitmapHeight);
 
             Console.WriteLine(poly);
             Console.WriteLine(polyDerivative);
@@ -43,25 +43,20 @@ namespace NNPTPZ1
 
             var maxid = 0;
 
-            for (int width = 0; width < arguments.BitmapWidth; width++)
+            for (int width = 0; width < options.BitmapWidth; width++)
             {
-                for (int height = 0; height < arguments.BitmapHeight; height++)
+                for (int height = 0; height < options.BitmapHeight; height++)
                 { 
-                    double real = arguments.MinX + height * arguments.StepX;
-                    double imaginary = arguments.MinY + width * arguments.StepY;
+                    double real = options.MinX + height * options.StepX;
+                    double imaginary = options.MinY + width * options.StepY;
 
                     ComplexNumber ox = new ComplexNumber()
                     {
-                        Real = real == 0 ? ComplexNumber.ZERO_REPLACEMENT : real,
-                        Imaginary = imaginary == 0 ? ComplexNumber.ZERO_REPLACEMENT : imaginary
+                        Real = real == 0 ? 0.0001 : real,
+                        Imaginary = imaginary == 0 ? 0.0001 : imaginary
                     };
+                    IList<ComplexNumber> roots = new List<ComplexNumber>();
 
-                    if (ox.Real == 0)
-                        ox.Real = 0.0001;
-                    if (ox.Imaginary == 0)
-                        ox.Imaginary = 0.0001f;
-
-                    //Console.WriteLine(ox);
 
                     // find solution of equation using newton's iteration
                     float it = 0;
@@ -105,24 +100,13 @@ namespace NNPTPZ1
                     vv = Color.FromArgb(vv.R, vv.G, vv.B);
                     vv = Color.FromArgb(Math.Min(Math.Max(0, vv.R-(int)it*2), 255), Math.Min(Math.Max(0, vv.G - (int)it*2), 255), Math.Min(Math.Max(0, vv.B - (int)it*2), 255));
                     //vv = Math.Min(Math.Max(0, vv), 255);
-                    bmp.SetPixel(height, width, vv);
+                    bitmap.SetPixel(height, width, vv);
                     //bmp.SetPixel(j, i, Color.FromArgb(vv, vv, vv));
                 }
             }
 
-            // TODO: delete I suppose...
-            //for (int i = 0; i < 300; i++)
-            //{
-            //    for (int j = 0; j < 300; j++)
-            //    {
-            //        Color c = bmp.GetPixel(j, i);
-            //        int nv = (int)Math.Floor(c.R * (255.0 / maxid));
-            //        bmp.SetPixel(j, i, Color.FromArgb(nv, nv, nv));
-            //    }
-            //}
 
-                    bmp.Save(output ?? "../../../out.png");
-            //Console.ReadKey();
+            bitmap.Save(options.BitmapFilePath);
         }
     }
 
