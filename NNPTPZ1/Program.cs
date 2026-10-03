@@ -52,7 +52,7 @@ namespace NNPTPZ1
             //p.Coe.Add(Cplx.Zero);
             p.Coefficients.Add(new ComplexNumber() { Real = 1 });
             Polynomial ptmp = p;
-            Polynomial pd = p.Derive();
+            Polynomial pd = p.Derivative();
 
             Console.WriteLine(p);
             Console.WriteLine(pd);
