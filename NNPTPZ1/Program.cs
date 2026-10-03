@@ -17,44 +17,24 @@ using NNPTPZ1.Mathematics;
 
 namespace NNPTPZ1
 {
+
     class Program
     {
         static void Main(string[] args)
         {
-            int[] intargs = new int[2];
-            for (int i = 0; i < intargs.Length; i++)
-            {
-                intargs[i] = int.Parse(args[i]);
-            }
-            double[] doubleargs = new double[4];
-            for (int i = 0; i < doubleargs.Length; i++)
-            {
-                doubleargs[i] = double.Parse(args[i + 2]);
-            }
-            string output = args[6];
-            // TODO: add parameters from args?
-            Bitmap bmp = new Bitmap(intargs[0], intargs[1]);
-            double xmin = doubleargs[0];
-            double xmax = doubleargs[1];
-            double ymin = doubleargs[2];
-            double ymax = doubleargs[3];
+            ArgumentParser arguments = new ArgumentParser(args);
 
-            double xstep = (xmax - xmin) / intargs[0];
-            double ystep = (ymax - ymin) / intargs[1];
+            Polynomial poly = new Polynomial
+            (
+                    new ComplexNumber() { Real = 1 },
+                    ComplexNumber.Zero,
+                    ComplexNumber.Zero,
+                    new ComplexNumber() { Real = 1 }
+            );
+            Polynomial polyDerivative = poly.Derivative();
 
-            List<ComplexNumber> koreny = new List<ComplexNumber>();
-            // TODO: poly should be parameterised?
-            Polynomial p = new Polynomial();
-            p.Coefficients.Add(new ComplexNumber() { Real = 1 });
-            p.Coefficients.Add(ComplexNumber.Zero);
-            p.Coefficients.Add(ComplexNumber.Zero);
-            //p.Coefficients.Add(Cplx.Zero);
-            p.Coefficients.Add(new ComplexNumber() { Real = 1 });
-            Polynomial ptmp = p;
-            Polynomial pd = p.Derivative();
-
-            Console.WriteLine(p);
-            Console.WriteLine(pd);
+            Console.WriteLine(poly);
+            Console.WriteLine(polyDerivative);
 
             var clrs = new Color[]
             {
@@ -63,20 +43,17 @@ namespace NNPTPZ1
 
             var maxid = 0;
 
-            // TODO: cleanup!!!
-            // for every pixel in image...
-            for (int i = 0; i < intargs[0]; i++)
+            for (int width = 0; width < arguments.BitmapWidth; width++)
             {
-                for (int j = 0; j < intargs[1]; j++)
-                {
-                    // find "world" coordinates of pixel
-                    double y = ymin + i * ystep;
-                    double x = xmin + j * xstep;
+                for (int height = 0; height < arguments.BitmapHeight; height++)
+                { 
+                    double real = arguments.MinX + height * arguments.StepX;
+                    double imaginary = arguments.MinY + width * arguments.StepY;
 
                     ComplexNumber ox = new ComplexNumber()
                     {
-                        Real = x,
-                        Imaginary = (float)(y)
+                        Real = real == 0 ? ComplexNumber.ZERO_REPLACEMENT : real,
+                        Imaginary = imaginary == 0 ? ComplexNumber.ZERO_REPLACEMENT : imaginary
                     };
 
                     if (ox.Real == 0)
@@ -128,12 +105,25 @@ namespace NNPTPZ1
                     vv = Color.FromArgb(vv.R, vv.G, vv.B);
                     vv = Color.FromArgb(Math.Min(Math.Max(0, vv.R-(int)it*2), 255), Math.Min(Math.Max(0, vv.G - (int)it*2), 255), Math.Min(Math.Max(0, vv.B - (int)it*2), 255));
                     //vv = Math.Min(Math.Max(0, vv), 255);
-                    bmp.SetPixel(j, i, vv);
+                    bmp.SetPixel(height, width, vv);
                     //bmp.SetPixel(j, i, Color.FromArgb(vv, vv, vv));
                 }
             }
 
-            bmp.Save(output ?? "../../../out.png");
+            // TODO: delete I suppose...
+            //for (int i = 0; i < 300; i++)
+            //{
+            //    for (int j = 0; j < 300; j++)
+            //    {
+            //        Color c = bmp.GetPixel(j, i);
+            //        int nv = (int)Math.Floor(c.R * (255.0 / maxid));
+            //        bmp.SetPixel(j, i, Color.FromArgb(nv, nv, nv));
+            //    }
+            //}
+
+                    bmp.Save(output ?? "../../../out.png");
+            //Console.ReadKey();
         }
     }
+
 }

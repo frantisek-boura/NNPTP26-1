@@ -9,7 +9,7 @@ namespace NNPTPZ1
         {
 
             public double Real { get; set; }
-            public float Imaginary { get; set; }
+            public double Imaginary { get; set; }
 
             public override bool Equals(object obj)
             {
@@ -35,7 +35,7 @@ namespace NNPTPZ1
                 return new ComplexNumber()
                 {
                     Real = a.Real * b.Real - a.Imaginary * b.Imaginary,
-                    Imaginary = (float)(a.Real * b.Imaginary + a.Imaginary * b.Real)
+                    Imaginary = (a.Real * b.Imaginary + a.Imaginary * b.Real)
                 };
             }
             public double GetAbS()
@@ -86,7 +86,7 @@ namespace NNPTPZ1
                 return new ComplexNumber()
                 {
                     Real = real.Real / imaginary,
-                    Imaginary = (float)(real.Imaginary / imaginary)
+                    Imaginary = (real.Imaginary / imaginary)
                 };
             }
         }
