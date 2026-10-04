@@ -10,7 +10,7 @@ using NNPTPZ1;
 namespace NNPTPZ1.Mathematics.Tests
 {
     [TestClass()]
-    public class CplxTests
+    public class ComplexNumberTests
     {
 
         [TestMethod()]

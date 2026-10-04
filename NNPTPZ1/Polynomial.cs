@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace NNPTPZ1
@@ -16,6 +17,7 @@ namespace NNPTPZ1
                 foreach (ComplexNumber number in numbers)
                 {
                     Coefficients.Add(number);
+                    Console.WriteLine(number);
                 }
             }
 

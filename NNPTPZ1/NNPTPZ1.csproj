@@ -44,6 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NewtonSolver.cs" />
+    <Compile Include="Renderer.cs" />
     <Compile Include="UserInputParser.cs" />
     <Compile Include="ComplexNumber.cs" />
     <Compile Include="Options.cs" />
