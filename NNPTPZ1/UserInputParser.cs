@@ -22,6 +22,19 @@ namespace NNPTPZ1
 
             try
             {
+                options.MinX = double.Parse(args[2]);
+                options.MaxX = double.Parse(args[3]);
+                options.MinY = double.Parse(args[4]);
+                options.MaxY = double.Parse(args[5]);
+
+            }
+            catch (FormatException)
+            {
+                throw new ArgumentException("Invalid argument format. Please provide valid doubles for coordinate bounds.");
+            }
+
+            try
+            {
                 options.BitmapWidth = int.Parse(args[0]);
                 options.BitmapHeight = int.Parse(args[1]);
                 options.StepX = (options.MaxX - options.MinX) / options.BitmapWidth;
@@ -34,19 +47,6 @@ namespace NNPTPZ1
             catch (DivideByZeroException)
             {
                 throw new ArgumentException("Bitmap width and height must be greater than zero.");
-            }
-
-            try
-            {
-                options.MinX = double.Parse(args[2]);
-                options.MaxX = double.Parse(args[3]);
-                options.MinY = double.Parse(args[4]);
-                options.MaxY = double.Parse(args[5]);
-
-            }
-            catch (FormatException)
-            {
-                throw new ArgumentException("Invalid argument format. Please provide valid doubles for coordinate bounds.");
             }
 
             if (options.MinX >= options.MaxX || options.MinY >= options.MaxY)
