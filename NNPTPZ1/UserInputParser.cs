@@ -10,24 +10,30 @@ namespace NNPTPZ1
     internal static class UserInputParser
     {
 
-        private const int MIN_ARGUMENTS = 6;
-        private const string DEFAULT_FILE_PATH = "../../../out.png";
+        private const int MinArguments = 6;
+        private const string DefaultFilePath = "../../../out.png";
 
         public static Options Parse(params string[] args)
         {
             Options options = new Options();
 
-            if (args.Length < MIN_ARGUMENTS)
+            if (args.Length < MinArguments)
                 throw new ArgumentException("Not enough arguments provided. Expected at least 7 arguments.");
 
             try
             {
                 options.BitmapWidth = int.Parse(args[0]);
                 options.BitmapHeight = int.Parse(args[1]);
+                options.StepX = (options.MaxX - options.MinX) / options.BitmapWidth;
+                options.StepY = (options.MaxY - options.MinY) / options.BitmapHeight;
             }
             catch (FormatException)
             {
                 throw new ArgumentException("Invalid argument format. Please provide valid integers for bitmap dimensions.");
+            }
+            catch (DivideByZeroException)
+            {
+                throw new ArgumentException("Bitmap width and height must be greater than zero.");
             }
 
             try
@@ -48,22 +54,11 @@ namespace NNPTPZ1
 
             try
             {
-                options.StepX = (options.MaxX - options.MinX) / options.BitmapWidth;
-                options.StepY = (options.MaxY - options.MinY) / options.BitmapHeight;
-
-            }
-            catch (DivideByZeroException)
-            {
-                throw new ArgumentException("Bitmap width and height must be greater than zero.");
-            }
-
-            try
-            {
                 options.BitmapFilePath = args[6];
             }
             catch (IndexOutOfRangeException)
             {
-                options.BitmapFilePath = DEFAULT_FILE_PATH;
+                options.BitmapFilePath = DefaultFilePath;
             }
 
             return options;

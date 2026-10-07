@@ -14,9 +14,9 @@ namespace NNPTPZ1
         private const double SolutionThreshold = 0.5;
         private const double RootThreshold = 0.01;
 
-        public static float Solve(Polynomial poly, Polynomial polyDerivative, ComplexNumber pixel)
+        public static double Solve(Polynomial poly, Polynomial polyDerivative, ComplexNumber pixel)
         {
-            float iteration = 0;
+            double iteration = 0;
             for (int i = 0; i < NewtonIterations; i++)
             {
                 var difference = poly.Evaluate(pixel).Divide(polyDerivative.Evaluate(pixel));

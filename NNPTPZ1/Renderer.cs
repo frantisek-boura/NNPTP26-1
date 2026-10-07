@@ -10,7 +10,7 @@ namespace NNPTPZ1
 {
     internal static class Renderer
     {
-        private static Color[] Colors = new Color[] { Color.Red, Color.Blue, Color.Green, Color.Yellow, Color.Orange, Color.Fuchsia, Color.Gold, Color.Cyan, Color.Magenta };
+        private readonly static Color[] Colors = new Color[] { Color.Red, Color.Blue, Color.Green, Color.Yellow, Color.Orange, Color.Fuchsia, Color.Gold, Color.Cyan, Color.Magenta };
 
         private const int ColorMultiplier = 2;
         private const double ZeroReplacement = 0.0001;
@@ -32,7 +32,7 @@ namespace NNPTPZ1
                     };
 
                     IList<ComplexNumber> roots = new List<ComplexNumber>();
-                    float iteration = NewtonSolver.Solve(poly, polyDerivative, pixel);
+                    double iteration = NewtonSolver.Solve(poly, polyDerivative, pixel);
                     int colorId = NewtonSolver.FindRoot(pixel, roots);
 
                     Color color = GetColor(colorId, iteration);
@@ -44,16 +44,13 @@ namespace NNPTPZ1
             bitmap.Save(options.BitmapFilePath);
         }
 
-        private static Color GetColor(int colorId, float iteration)
+        private static Color GetColor(int colorId, double iteration)
         {
-            var color = Colors[colorId % Colors.Length];
-            color = Color.FromArgb(color.R, color.G, color.B);
-            color = Color.FromArgb(
-                     Math.Min(Math.Max(color.R - (int)iteration * ColorMultiplier, 255), 0),
-                     Math.Min(Math.Max(color.G - (int)iteration * ColorMultiplier, 255), 0),
-                     Math.Min(Math.Max(color.B - (int)iteration * ColorMultiplier, 255), 0)
+            return Color.FromArgb(
+                     Math.Min(Math.Max(Colors[colorId % Colors.Length].R - (int)iteration * ColorMultiplier, 255), 0),
+                     Math.Min(Math.Max(Colors[colorId % Colors.Length].G - (int)iteration * ColorMultiplier, 255), 0),
+                     Math.Min(Math.Max(Colors[colorId % Colors.Length].B - (int)iteration * ColorMultiplier, 255), 0)
             );
-            return color;
         }
 
     }
